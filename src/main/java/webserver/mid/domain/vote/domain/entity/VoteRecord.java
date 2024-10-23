@@ -30,10 +30,4 @@ public class VoteRecord {
     public void updateVoteItem(VoteItem voteItem) {
         this.voteItem = voteItem;
     }
-
-    public void deleteAll() {
-        this.vote = null;
-        this.voteItem = null;
-        this.member = null;
-    }
 }

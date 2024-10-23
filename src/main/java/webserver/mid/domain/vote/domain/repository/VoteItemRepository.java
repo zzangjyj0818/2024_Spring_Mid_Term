@@ -13,12 +13,6 @@ import java.util.List;
 
 @Repository
 public interface VoteItemRepository extends JpaRepository<VoteItem, Long> {
-
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM VoteItem vi WHERE vi.vote = :vote")
-    void deleteByVote(@Param("vote") Vote vote);
-
     @Query("SELECT vi FROM VoteItem vi WHERE vi.vote = :vote")
     List<VoteItem> findByVote(@Param("vote") Vote vote);
 }

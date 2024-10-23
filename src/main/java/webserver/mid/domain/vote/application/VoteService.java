@@ -163,8 +163,8 @@ public class VoteService {
     private void deleteVoteItems(Vote vote) {
         List<VoteItem> voteItems = voteItemRepository.findByVote(vote);
         for (VoteItem item : voteItems) {
-            deleteVoteRecordsByVoteItem(item);  // First, delete all related vote records
-            voteItemRepository.delete(item);    // Then, delete the vote item
+            deleteVoteRecordsByVoteItem(item);
+            voteItemRepository.delete(item);
         }
     }
 
