@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class VoteService {
 
     private final MemberRepository memberRepository;
@@ -77,11 +76,12 @@ public class VoteService {
         model.addAttribute("votes", res);
     }
 
+    @Transactional
     public void deleteVote(Long voteId) {
         Vote vote = voteRepository.findById(voteId).orElse(null);
         if (vote != null) {
-            deleteVoteRecords(vote);
-            voteItemRepository.deleteByVote(vote);
+            deleteVoteRecordsByVote(vote);
+            deleteVoteItems(vote);
             voteRepository.delete(vote);
         }
     }
@@ -116,6 +116,7 @@ public class VoteService {
         return null;
     }
 
+    @Transactional
     public void vote(Long id, HttpSession httpSession, Long itemId) {
         Member member = getMemberFromSession(httpSession);
         Vote vote = voteRepository.findById(id).orElse(null);
@@ -153,8 +154,22 @@ public class VoteService {
         voteItemRepository.saveAll(voteItems);
     }
 
-    private void deleteVoteRecords(Vote vote) {
+
+    private void deleteVoteRecordsByVote(Vote vote) {
         List<VoteRecord> voteRecords = voteRecordRepository.findByVote(vote);
+        voteRecordRepository.deleteAll(voteRecords);
+    }
+
+    private void deleteVoteItems(Vote vote) {
+        List<VoteItem> voteItems = voteItemRepository.findByVote(vote);
+        for (VoteItem item : voteItems) {
+            deleteVoteRecordsByVoteItem(item);  // First, delete all related vote records
+            voteItemRepository.delete(item);    // Then, delete the vote item
+        }
+    }
+
+    private void deleteVoteRecordsByVoteItem(VoteItem voteItem) {
+        List<VoteRecord> voteRecords = voteRecordRepository.findByVoteItem(voteItem);
         voteRecordRepository.deleteAll(voteRecords);
     }
 

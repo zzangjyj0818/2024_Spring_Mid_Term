@@ -26,4 +26,7 @@ public interface VoteRecordRepository extends JpaRepository<VoteRecord, Long> {
 
     @Query("SELECT COUNT(vr) FROM VoteRecord vr WHERE vr.voteItem = :item")
     int countByVoteItem(@Param("item") VoteItem item);
+
+    @Query("SELECT vr FROM VoteRecord vr WHERE vr.voteItem = :voteItem")
+    List<VoteRecord> findByVoteItem(@Param("voteItem") VoteItem voteItem);
 }
