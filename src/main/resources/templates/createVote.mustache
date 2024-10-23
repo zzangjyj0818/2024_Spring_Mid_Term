@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투표 생성</title>
+    <script>
+        let itemCount = 1;
+
+        function addVoteItem() {
+            itemCount++;
+            const container = document.getElementById('vote-items');
+            const newItem = document.createElement('li');
+            newItem.innerHTML = `
+                    <input type="text" name="items" placeholder="항목 이름" required>
+                    <button type="button" onclick="removeVoteItem(this)">–</button>
+            `;
+            container.appendChild(newItem);
+        }
+
+        function removeVoteItem(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+<h1>투표 생성</h1>
+<form action="/create" method="post">
+    <div>
+        <label for="title">투표 제목:</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    <ul id="vote-items">
+        <li>
+            <input type="text" name="items" placeholder="항목 이름" required>
+            <button type="button" onclick="removeVoteItem(this)">–</button>
+        </li>
+    </ul>
+    <button type="button" onclick="addVoteItem()">+</button>
+    <button type="submit">완료</button>
+</form>
+</body>
+</html>

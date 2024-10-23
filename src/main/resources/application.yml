@@ -1,0 +1,39 @@
+spring:
+  profiles:
+    active: prod
+
+  main:
+    allow-bean-definition-overriding: true
+
+  mustache:
+    prefix: classpath:/templates/
+    suffix: .mustache
+
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driver-class-name}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MariaDBDialect
+    open-in-view: false
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: debug
+        type: trace
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true

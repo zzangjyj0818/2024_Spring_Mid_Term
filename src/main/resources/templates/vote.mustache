@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{title}} - Vote</title>
+</head>
+<body>
+<h1>{{title}}</h1>
+
+<!-- 투표 선택 항목 -->
+<form action="/vote/{{id}}" method="POST">
+    {{#items}}
+        <div>
+            <label>
+                <input type="radio" name="itemId" value="{{id}}" {{#isSelected}}checked{{/isSelected}}>
+                {{item}}
+            </label>
+        </div>
+    {{/items}}
+
+    <!-- 완료 버튼 (항목을 선택해야 활성화) -->
+    <button type="submit" disabled>완료</button>
+</form>
+
+<script>
+    // 라디오 버튼 선택 시 완료 버튼 활성화
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    const submitButton = document.querySelector('button[type="submit"]');
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', () => {
+            submitButton.disabled = false;
+        });
+    });
+</script>
+</body>
+</html>

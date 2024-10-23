@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!-- 검색 기능 -->
+<form action="/" method="post">
+    <label for="search">검색:</label>
+    <input type="search" placeholder="검색어를 입력하세요" name="search" value=""/>
+    <button type="submit">검색</button>
+</form>
+
+<!-- 작성되거나 검색된 투표 목록 ( 리스트 오른쪽에 투표[재투표], 투표 결과, 삭제 버튼 ]-->
+<!-- 투표하지 않은 항목이면 투표, 투표한 항목이면 재투표, 자신이 작성한 투표 항목일 경우에만 삭제버튼(메인페이지 리다이렉트) -->
+<h2>투표 목록</h2>
+<ul>
+    {{#votes}}
+        <li>
+            <strong>{{title}}</strong>
+            <button onclick="window.location.href='/vote/{{id}}'">{{#isVoted}}재투표하기{{/isVoted}}{{^isVoted}}투표하기{{/isVoted}}</button>
+            <button onclick="window.location.href='/result/{{id}}'">투표 결과 보기</button>
+            {{#isOwner}}
+                <button onclick="deleteVote({{id}})">삭제</button>
+            {{/isOwner}}
+        </li>
+    {{/votes}}
+</ul>
+
+<!-- 하단에 투표작성 -->
+<button onclick="window.location.href='/create'">투표 작성하러 가기</button>
+<!-- 하단에 로그아웃 버튼 (로그인페이지 리다이렉트) -->
+<button onclick="window.location.href='/logout'">로그아웃</button>
+</body>
+
+<script>
+    function deleteVote(id) {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            fetch('/vote/' + id, {
+                method: 'DELETE',
+            })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/';
+                        } else {
+                            alert('삭제 실패');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+        }
+    }
+</script>
+
+</html>
+
+

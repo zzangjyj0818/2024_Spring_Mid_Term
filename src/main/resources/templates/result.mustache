@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투표 결과</title>
+</head>
+<body>
+<h1>투표 결과: {{voteResult.title}}</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>항목</th>
+        <th>득표수</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#voteResult.voteItems}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{voteCount}}</td>
+        </tr>
+    {{/voteResult.voteItems}}
+    </tbody>
+</table>
+<button onclick="window.location.href='/'">돌아가기</button>
+</body>
+</html>
