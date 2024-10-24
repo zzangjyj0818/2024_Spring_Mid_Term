@@ -32,10 +32,10 @@ logging:
         sql: debug
         type: trace
 server:
+  session:
+    tracking-modes: cookie
   servlet:
     encoding:
       charset: UTF-8
       enabled: true
       force: true
-      session:
-        tracking-modes: cookie
